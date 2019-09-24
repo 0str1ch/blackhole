@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState, useMemo } from "react";
-import * as THREE from "three";
+import React, { useRef, useEffect, useState, useMemo } from 'react';
+import * as THREE from 'three';
 import {
   Canvas,
   useRender,
@@ -7,12 +7,15 @@ import {
   useLoader,
   useThree,
   apply
-} from "react-three-fiber";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-import * as resources from "../resources";
+} from 'react-three-fiber';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import { DoubleSide, CubeTextureLoader } from 'three';
+import * as resources from '../resources/index';
+import { useTransition, a } from 'react-spring'
+
 
 extend({ OrbitControls, UnrealBloomPass });
 const Controls = props => {
@@ -32,7 +35,7 @@ function Model({ url }) {
   const modelRef = useRef();
   const model = useLoader(GLTFLoader, url, loader => {
     const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath("/draco-gltf/");
+    dracoLoader.setDecoderPath('/draco-gltf/');
     loader.setDRACOLoader(dracoLoader);
   });
 
@@ -54,9 +57,10 @@ function Model({ url }) {
               attach="material"
               map={material.map}
               emissiveMap={material.emissiveMap}
+              envMap={material.envMap}
               specular="#fbe277"
               color="#fbe277"
-              shininess={1}
+              shininess={0}
               metalness={0}
               emissive="#fbe277"
               emissiveIntensity={0.95}
@@ -136,7 +140,7 @@ function Stars() {
   const [geo, mat, vertices, coords] = useMemo(() => {
     const geo = new THREE.SphereBufferGeometry(0.5, 10, 10);
     const mat = new THREE.MeshBasicMaterial({
-      color: new THREE.Color("lightblue")
+      color: new THREE.Color('lightblue')
     });
     const coords = new Array(2000)
       .fill()
@@ -156,14 +160,42 @@ function Stars() {
   );
 }
 
+function Loading() {
+  const [finished, set] = useState(false)
+  const [width, setWidth] = useState(0)
+
+  useEffect(() => {
+    THREE.DefaultLoadingManager.onLoad = () => set(true)
+    THREE.DefaultLoadingManager.onProgress = (url, itemsLoaded, itemsTotal) =>
+      setWidth((itemsLoaded / itemsTotal) * 200)
+  }, [])
+
+  const props = useTransition(finished, null, {
+    from: { opacity: 1, width: 0 },
+    leave: { opacity: 0 },
+    update: { width },
+  })
+
+  return props.map(
+    ({ item: finished, key, props: { opacity, width } }) =>
+      !finished && (
+        <a.div className="loading" key={key} style={{ opacity }}>
+          <div className="loading-bar-container">
+            <a.div className="loading-bar" style={{ width }} />
+          </div>
+        </a.div>
+      ),
+  )
+}
+
 export default function CanvasBackground() {
   return (
     <>
       <Canvas
         camera={{ position: [0, 1, 40], fov: 35 }}
-        style={{ height: "100%", position: "absolute" }}
+        style={{ height: '100%', position: 'absolute' }}
         pixelRatio={window.devicePixelRatio}
-        shadowmap
+        
       >
         <ambientLight intensity={1.5} />
         {/* <directionalLight intensity={1} position={[-100, 450, 100]} color="white" /> */}
@@ -175,7 +207,7 @@ export default function CanvasBackground() {
           shadow-mapSize-width={2048}
           shadow-mapSize-height={2048}
         /> */}
-        <fog attach="fog" args={["#000", 5, 2050]} />
+        <fog attach="fog" args={['#000', 5, 2050]} />
 
         {/* <Plane/> */}
         <Stars />
@@ -186,8 +218,8 @@ export default function CanvasBackground() {
           enablePan
           enableZoom
           enableDamping
-          dampingFactor={0.5}
-          rotateSpeed={1}
+          dampingFactor={0.9}
+          rotateSpeed={0.3}
           maxPolarAngle={Math.PI / 2.05}
           minPolarAngle={Math.PI / 2.05}
         />
@@ -200,8 +232,28 @@ export default function CanvasBackground() {
             top: 0;
             overflow: hidden;
           }
+
+          div.nav-links {
+            position: absolute;
+            z-index: 2;
+            padding: 3rem;
+            text-align: center;
+            opacity: 0.9;
+          }
+
+          div.credits {
+            bottom: 0;
+            left: 0;
+          }
+          div.source {
+            bottom: 0;
+            right: 0;
+          }
         `}
       </style>
+      <Loading/>
+      <div className="nav-links credits">Made by <a href="http://jeremysmith.dev" target="_blank" rel="noopener noreferrer">Jeremy Smith</a> </div>
+      <div className="nav-links source"><a href="http://github.com/0str1ch/blackhole" target="_blank" rel="noopener noreferrer">View Code</a></div>
     </>
   );
 }
