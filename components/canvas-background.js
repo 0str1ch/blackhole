@@ -12,10 +12,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import { DoubleSide, CubeTextureLoader } from 'three';
+import { useTransition, a } from 'react-spring';
 import * as resources from '../resources/index';
-import { useTransition, a } from 'react-spring'
-
 
 extend({ OrbitControls, UnrealBloomPass });
 const Controls = props => {
@@ -129,14 +127,6 @@ function Effect() {
 
 function Stars() {
   const group = useRef();
-  const theta = 0;
-  useRender(() => {
-    // Some things maybe shouldn't be declarative, we're in the render-loop here with full access to the instance
-    // const r = 5 * Math.sin(THREE.Math.degToRad((theta += 0.1)))
-    // const s = Math.cos(THREE.Math.degToRad(theta * 2))
-    // group.current.rotation.set(r, r, r)
-    // group.current.scale.set(s, s, s)
-  });
   const [geo, mat, vertices, coords] = useMemo(() => {
     const geo = new THREE.SphereBufferGeometry(0.5, 10, 10);
     const mat = new THREE.MeshBasicMaterial({
@@ -161,20 +151,20 @@ function Stars() {
 }
 
 function Loading() {
-  const [finished, set] = useState(false)
-  const [width, setWidth] = useState(0)
+  const [finished, set] = useState(false);
+  const [width, setWidth] = useState(0);
 
   useEffect(() => {
-    THREE.DefaultLoadingManager.onLoad = () => set(true)
+    THREE.DefaultLoadingManager.onLoad = () => set(true);
     THREE.DefaultLoadingManager.onProgress = (url, itemsLoaded, itemsTotal) =>
-      setWidth((itemsLoaded / itemsTotal) * 200)
-  }, [])
+      setWidth((itemsLoaded / itemsTotal) * 200);
+  }, []);
 
   const props = useTransition(finished, null, {
     from: { opacity: 1, width: 0 },
     leave: { opacity: 0 },
-    update: { width },
-  })
+    update: { width }
+  });
 
   return props.map(
     ({ item: finished, key, props: { opacity, width } }) =>
@@ -184,8 +174,8 @@ function Loading() {
             <a.div className="loading-bar" style={{ width }} />
           </div>
         </a.div>
-      ),
-  )
+      )
+  );
 }
 
 export default function CanvasBackground() {
@@ -195,21 +185,9 @@ export default function CanvasBackground() {
         camera={{ position: [0, 1, 40], fov: 35 }}
         style={{ height: '100%', position: 'absolute' }}
         pixelRatio={window.devicePixelRatio}
-        
       >
         <ambientLight intensity={1.5} />
-        {/* <directionalLight intensity={1} position={[-100, 450, 100]} color="white" /> */}
-        {/* <spotLight
-          castShadow
-          intensity={1.25}
-          angle={Math.PI / 8}
-          position={[2, 2, 2]}
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
-        /> */}
         <fog attach="fog" args={['#000', 5, 2050]} />
-
-        {/* <Plane/> */}
         <Stars />
         <Model url="/static/blackhole/scene.gltf" />
         <Sphere />
@@ -232,12 +210,9 @@ export default function CanvasBackground() {
             top: 0;
             overflow: hidden;
           }
-
-         
         `}
       </style>
-      <Loading/>
-      
+      <Loading />
     </>
   );
 }
