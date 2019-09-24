@@ -6,9 +6,9 @@ export default class MyApp extends App {
   render() {
     const { Component, pageProps, router } = this.props;
     return (
-      <Lafyout>
+      <Layout>
         <Component {...pageProps} key={router.pathname} />
-      </Lafyout>
+      </Layout>
     );
   }
 }
