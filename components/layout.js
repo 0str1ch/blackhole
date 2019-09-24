@@ -63,14 +63,16 @@ function Layout({ children }) {
         }
 
         .loading-bar-container {
-          width: 200px;
-          height: 3px;
+          width: 15rem;
+          height: 0.333rem;
           background: #222;
+          border-radius: 0.333rem;
         }
 
         .loading-bar {
-          height: 3px;
+          height: 0.333rem;
           background: white;
+          border-radius: 0.333rem;
         }
       `}</style>
     </>

@@ -77,7 +77,12 @@ const Sphere = () => {
   const meshRef = useRef();
 
   return (
-    <mesh ref={meshRef} castShadow scale={[5, 5, 5]} position={[0, -1, 0]}>
+    <mesh
+      ref={meshRef}
+      castShadow
+      scale={[5.5, 5.5, 5.5]}
+      position={[0, -1, 0]}
+    >
       <sphereBufferGeometry attach="geometry" args={[1, 32, 32]} />
       <meshLambertMaterial
         attach="material"
