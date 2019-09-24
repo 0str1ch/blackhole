@@ -8,6 +8,6 @@ const CanvasBackground = dynamic(import('../components/canvas-background'), {
 export default () => (
   <div className="wrapper">
     <CanvasBackground />
-    <Creditsf />
+    <Credits />
   </div>
 );
