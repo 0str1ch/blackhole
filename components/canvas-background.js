@@ -12,7 +12,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-import * as resources from "../resources/index";
+import * as resources from "../resources";
 
 extend({ OrbitControls, UnrealBloomPass });
 const Controls = props => {
