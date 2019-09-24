@@ -19,7 +19,7 @@ function Credits() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          View Code
+          View Source
         </a>
       </div>
       <style jsx>
