@@ -6,7 +6,6 @@
     "build": "next build",
     "start": "NODE_ENV=production next start",
     "export": "npm run build && next export",
-    "postexport": "node scripts/sitemapBuild.js",
     "production-start": "npm run build && npm run start",
     "analyze": "BUNDLE_ANALYZE=both next build",
     "lint": "eslint",
