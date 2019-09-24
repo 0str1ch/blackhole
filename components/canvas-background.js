@@ -173,13 +173,14 @@ export default function CanvasBackground() {
         camera={{ position: [0, 1, 40], fov: 35 }}
         style={{ height: '100%', position: 'absolute' }}
         pixelRatio={window.devicePixelRatio}
+        gl={{ antialias: false, alpha: false }}
       >
         <ambientLight intensity={1.5} />
         <directionalLight
-          castShadow
+          // castShadow
           intensity={0.2}
-          shadow-mapSize-width={2048}
-          shadow-mapSize-height={2048}
+          // shadow-mapSize-width={2048}
+          // shadow-mapSize-height={2048}
         />
 
         <fog attach="fog" args={['#000', 500, 2050]} />
