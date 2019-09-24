@@ -175,6 +175,7 @@ function Loading() {
     ({ item: finished, key, props: { opacity, width } }) =>
       !finished && (
         <a.div className="loading" key={key} style={{ opacity }}>
+          <span className="loading-text">Loading</span>
           <div className="loading-bar-container">
             <a.div className="loading-bar" style={{ width }} />
           </div>

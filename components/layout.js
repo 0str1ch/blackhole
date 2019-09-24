@@ -62,12 +62,13 @@ function Layout({ children }) {
           height: 100%;
           background: #000;
           display: flex;
-          align-items: center;
-          justify-content: center;
+          flex-direction: column;
+          place-content: center center;
+          place-items: center;
         }
 
         .loading-bar-container {
-          width: 15rem;
+          width: 100%;
           height: 0.333rem;
           background: #222;
           border-radius: 0.333rem;
@@ -77,6 +78,17 @@ function Layout({ children }) {
           height: 0.333rem;
           background: white;
           border-radius: 0.333rem;
+        }
+
+        .loading-text {
+          font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo,
+            monospace;
+          text-transform: uppercase;
+          letter-spacing: 1rem;
+          margin-bottom: 0.5rem;
+          text-align: center;
+          width: 100%;
+          padding: 0;
         }
       `}</style>
     </>
