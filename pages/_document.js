@@ -1,7 +1,6 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 
-
 export default class BlackholeThree extends Document {
   static async getInitialProps(ctx) {
     const initialProps = await Document.getInitialProps(ctx);
@@ -41,17 +40,16 @@ export default class BlackholeThree extends Document {
           <link
             rel="mask-icon"
             href="/static/safari-pinned-tab.svg"
-            color="#9d72de"
+            color="#000"
           />
           <link rel="shortcut icon" href="/static/favicon.ico" />
-          <meta name="theme-color" content="#ffffff" />
+          <meta name="theme-color" content="#000" />
           <meta name="msapplication-navbutton-color" content="#000000" />
           <meta
             name="apple-mobile-web-app-status-bar-style"
             content="black-translucent"
           />
           <meta name="msapplication-starturl" content="/" />
-
         </Head>
         <body>
           <Main />
