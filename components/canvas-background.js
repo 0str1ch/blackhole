@@ -93,9 +93,9 @@ function Stars() {
     const coords = new Array(2000)
       .fill()
       .map(i => [
-        Math.random() * 1800 - 400,
-        Math.random() * 1800 - 400,
-        Math.random() * 1800 - 400
+        Math.random() * 1800 - 700,
+        Math.random() * 1800 - 700,
+        Math.random() * 1800 - 700
       ]);
     return [geo, mat, vertices, coords];
   }, []);
