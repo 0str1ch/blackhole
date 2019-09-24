@@ -49,9 +49,11 @@ function Layout({ children }) {
         }
 
         div.wrapper {
+          min-height: 100%;
           height: 100vh;
           width: 100%;
           position: relative;
+          overflow: hidden;
         }
 
         .loading {

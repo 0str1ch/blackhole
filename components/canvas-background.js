@@ -29,8 +29,6 @@ const Controls = props => {
 
 apply(resources);
 
-const cubeCamera = new THREE.CubeCamera(1, 10000, 128);
-
 function Model({ url }) {
   const modelRef = useRef();
   const model = useLoader(GLTFLoader, url, loader => {
@@ -64,7 +62,6 @@ function Model({ url }) {
               emissive="#ededed"
               emissiveIntensity={7.5}
               transparent
-              opacity={0.99}
               // Don't show both sides as it ruins the black hole effect
               // args={[{side: DoubleSide}]}
             />
@@ -81,43 +78,24 @@ const Sphere = () => {
   return (
     <mesh ref={meshRef} scale={[5.4, 5.4, 5.4]} position={[0, -1, 0]}>
       <sphereBufferGeometry attach="geometry" args={[1, 32, 32]} />
-      <meshPhongMaterial
-        attach="material"
-        color="#000"
-        specular="#fff"
-        shininess={1}
-        roughness={100}
-        metalness={0}
-        emissive="#000"
-        emissiveIntensity={10}
-      />
+      <meshBasicMaterial attach="material" color="#000" />
     </mesh>
   );
 };
 
-function cubeCam() {
-  const cubeRef = useRef();
-  useRender(() => cubeRef.current.update());
-  return (
-    <mesh>
-      <cubeCamera ref={cubeRef} />
-    </mesh>
-  );
-}
-
 function Stars() {
   const group = useRef();
   const [geo, mat, vertices, coords] = useMemo(() => {
-    const geo = new THREE.SphereBufferGeometry(0.5, 10, 10);
+    const geo = new THREE.SphereBufferGeometry(0.4, 10, 10);
     const mat = new THREE.MeshBasicMaterial({
       color: new THREE.Color('lightblue')
     });
     const coords = new Array(2000)
       .fill()
       .map(i => [
-        Math.random() * 800 - 400,
-        Math.random() * 3800 - 400,
-        Math.random() * 800 - 400
+        Math.random() * 1800 - 400,
+        Math.random() * 1800 - 400,
+        Math.random() * 1800 - 400
       ]);
     return [geo, mat, vertices, coords];
   }, []);
