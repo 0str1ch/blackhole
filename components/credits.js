@@ -1,20 +1,36 @@
-import React from 'react'
+import React from 'react';
 
 function Credits() {
-    return (
-        <>
-                  <div className="nav-links credits">Made by <a href="http://jeremysmith.dev" target="_blank" rel="noopener noreferrer">Jeremy Smith</a> </div>
-      <div className="nav-links source"><a href="http://github.com/0str1ch/blackhole" target="_blank" rel="noopener noreferrer">View Code</a></div>
-                  <style jsx>
+  return (
+    <>
+      <div className="nav-links credits">
+        Made by{' '}
+        <a
+          href="http://jeremysmith.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Jeremy Smith
+        </a>{' '}
+      </div>
+      <div className="nav-links source">
+        <a
+          href="http://github.com/0str1ch/blackhole"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View Code
+        </a>
+      </div>
+      <style jsx>
         {`
-
           div.nav-links {
             position: absolute;
             z-index: 2;
             padding: 3rem;
             text-align: center;
             opacity: 0.9;
-            vertical-align: baseline;
+            vertical-align: middle;
           }
 
           div.credits {
@@ -27,9 +43,8 @@ function Credits() {
           }
         `}
       </style>
-
-        </>
-    )
+    </>
+  );
 }
 
-export default Credits
+export default Credits;
