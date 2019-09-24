@@ -1,4 +1,7 @@
 node_modules
+node_modules/
+static/
+**/node_modules/**
 **/.next/**
 **/_next/**
 **/dist/**

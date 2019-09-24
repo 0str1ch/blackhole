@@ -17,10 +17,11 @@ function Layout({ children }) {
           font-family: sans-serif;
           -ms-text-size-adjust: 100%;
           -webkit-text-size-adjust: 100%;
+          -webkit-font-smoothing: subpixel-antialiased;
+          -webkit-font-smoothing: antialiased;
+          text-rendering: optimizeLegibility;
         }
 
-        html,
-        body,
         #root,
         .bg,
         canvas {
@@ -37,6 +38,10 @@ function Layout({ children }) {
             Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
           font-size: 14px;
           line-height: 1.5;
+          min-height: 100%;
+          margin: 0;
+          padding: 0;
+          width: 100%;
         }
 
         a {
@@ -49,11 +54,15 @@ function Layout({ children }) {
         }
 
         div.wrapper {
-          min-height: 100%;
-          height: 100vh;
+          min-height: 100vh;
+          min-height: -webkit-fill-available;
+          height: 100%;
           width: 100%;
           position: relative;
           overflow: hidden;
+          align-items: stretch;
+          display: flex;
+          flex-direction: column;
         }
 
         .loading {
