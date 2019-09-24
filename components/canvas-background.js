@@ -56,12 +56,12 @@ function Model({ url }) {
               map={material.map}
               emissiveMap={material.emissiveMap}
               envMap={material.envMap}
-              specular="#fbe277"
-              color="#fbe277"
-              shininess={0}
+              specular="#000"
+              color="#000"
+              shininess={100}
               metalness={0}
-              emissive="#fbe277"
-              emissiveIntensity={0.95}
+              emissive="#fff6da"
+              emissiveIntensity={1.4}
               transparent
               // Don't show both sides as it ruins the black hole effect
               // args={[{side: DoubleSide}]}
@@ -77,12 +77,7 @@ const Sphere = () => {
   const meshRef = useRef();
 
   return (
-    <mesh
-      ref={meshRef}
-      castShadow
-      scale={[5.2, 5.2, 5.2]}
-      position={[0, -1, 0]}
-    >
+    <mesh ref={meshRef} scale={[5.4, 5.4, 5.4]} position={[0, -1, 0]}>
       <sphereBufferGeometry attach="geometry" args={[1, 32, 32]} />
       <meshLambertMaterial
         attach="material"
@@ -94,8 +89,6 @@ const Sphere = () => {
         metalness={0}
         emissive="#000"
         emissiveIntensity={1}
-        refractionRatio={0.95}
-        transparent
       />
     </mesh>
   );
@@ -141,9 +134,9 @@ function Effect() {
       {/* <waterPass attachArray="passes" factor={1} uniforms-distortion={0.1} /> */}
       <unrealBloomPass
         attachArray="passes"
-        threshold={0.35}
+        threshold={0.6}
         strength={1}
-        radius={1}
+        radius={0.05}
       />
       <shaderPass
         attachArray="passes"
@@ -204,7 +197,7 @@ export default function CanvasBackground() {
           enableDamping
           dampingFactor={0.9}
           rotateSpeed={0.3}
-          maxPolarAngle={Math.PI / 2}
+          maxPolarAngle={Math.PI / 2.1}
           minPolarAngle={Math.PI / -2}
         />
         <Effect />
