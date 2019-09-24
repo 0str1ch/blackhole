@@ -80,7 +80,7 @@ const Sphere = () => {
     <mesh
       ref={meshRef}
       castShadow
-      scale={[5.5, 5.5, 5.5]}
+      scale={[5.2, 5.2, 5.2]}
       position={[0, -1, 0]}
     >
       <sphereBufferGeometry attach="geometry" args={[1, 32, 32]} />

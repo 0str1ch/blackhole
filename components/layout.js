@@ -1,8 +1,12 @@
 import React from 'react';
+import Head from 'next/head';
 
 function Layout({ children }) {
   return (
     <>
+      <Head>
+        <title>Blackhole - Three.js, react-three-fiber, Next.js</title>
+      </Head>
       <main>{children}</main>
       <style jsx global>{`
         * {
