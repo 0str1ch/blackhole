@@ -12,14 +12,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
-import {
-  AdditiveBlendingShader,
-  VolumetricLightShader
-} from '../resources/shaders';
 import { useTransition, a } from 'react-spring';
 import * as resources from '../resources/index';
-import { useFrame } from 'react-three-fiber';
-import { CubeCamera } from 'three';
 
 extend({ OrbitControls, UnrealBloomPass });
 const Controls = props => {
@@ -34,9 +28,6 @@ const Controls = props => {
 };
 
 apply(resources);
-
-const DEFAULT_LAYER = 0;
-const OCCLUSION_LAYER = 1;
 
 const cubeCamera = new THREE.CubeCamera(1, 10000, 128);
 
@@ -61,20 +52,19 @@ function Model({ url }) {
             geometry={geometry}
             ref={modelRef}
             receiveShadow
-            castShadow
           >
             <meshPhongMaterial
               attach="material"
               map={material.map}
               emissiveMap={material.emissiveMap}
-              specular="#000"
+              specular="#fff"
               color="#000"
-              shininess={100}
-              metalness={1}
-              emissive="#fff6da"
-              emissiveIntensity={1.4}
-              refractionRatio={0.95}
+              shininess={0}
+              metalness={0}
+              emissive="#ededed"
+              emissiveIntensity={7.5}
               transparent
+              opacity={0.99}
               // Don't show both sides as it ruins the black hole effect
               // args={[{side: DoubleSide}]}
             />
@@ -91,16 +81,15 @@ const Sphere = () => {
   return (
     <mesh ref={meshRef} scale={[5.4, 5.4, 5.4]} position={[0, -1, 0]}>
       <sphereBufferGeometry attach="geometry" args={[1, 32, 32]} />
-      <meshLambertMaterial
+      <meshPhongMaterial
         attach="material"
         color="#000"
-        opacity={1}
-        specular="#000"
-        shininess={0}
+        specular="#fff"
+        shininess={1}
         roughness={100}
         metalness={0}
         emissive="#000"
-        emissiveIntensity={1}
+        emissiveIntensity={10}
       />
     </mesh>
   );
@@ -156,9 +145,9 @@ function Effect() {
       {/* <waterPass attachArray="passes" factor={1} args={[{uniformsintensity: 0}]} /> */}
       <unrealBloomPass
         attachArray="passes"
-        threshold={0.6}
-        strength={0.9}
-        radius={0.05}
+        threshold={0.899}
+        strength={1}
+        radius={0.1}
       />
       <shaderPass
         attachArray="passes"
@@ -177,7 +166,7 @@ function Loading() {
   useEffect(() => {
     THREE.DefaultLoadingManager.onLoad = () => set(true);
     THREE.DefaultLoadingManager.onProgress = (url, itemsLoaded, itemsTotal) =>
-      setWidth((itemsLoaded / itemsTotal) * 200);
+      setWidth((itemsLoaded / itemsTotal) * 300);
   }, []);
 
   const props = useTransition(finished, null, {
@@ -210,7 +199,7 @@ export default function CanvasBackground() {
         <ambientLight intensity={1.5} />
         <directionalLight
           castShadow
-          intensity={100}
+          intensity={0.2}
           shadow-mapSize-width={2048}
           shadow-mapSize-height={2048}
         />

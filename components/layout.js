@@ -68,7 +68,7 @@ function Layout({ children }) {
         }
 
         .loading-bar-container {
-          width: 100%;
+          width: 300px;
           height: 0.333rem;
           background: #222;
           border-radius: 0.333rem;
