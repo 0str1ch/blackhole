@@ -58,7 +58,7 @@ a:hover {
   left: 0px;
   width: 100%;
   height: 100%;
-  background: #171717;
+  background: #000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,7 +67,7 @@ a:hover {
 .loading-bar-container {
   width: 200px;
   height: 3px;
-  background: #272727;
+  background: #222;
 }
 
 .loading-bar {
