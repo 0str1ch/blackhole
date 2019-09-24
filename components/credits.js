@@ -27,10 +27,16 @@ function Credits() {
           div.nav-links {
             position: absolute;
             z-index: 2;
-            padding: 3rem;
+            padding: 2rem;
             text-align: center;
             opacity: 0.9;
             vertical-align: middle;
+          }
+
+          @media screen and (min-width: 800px) {
+            div.nav-links {
+              padding: 3rem;
+            }
           }
 
           div.credits {
