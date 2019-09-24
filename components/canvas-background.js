@@ -12,8 +12,14 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPass';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader';
+import {
+  AdditiveBlendingShader,
+  VolumetricLightShader
+} from '../resources/shaders';
 import { useTransition, a } from 'react-spring';
 import * as resources from '../resources/index';
+import { useFrame } from 'react-three-fiber';
+import { CubeCamera } from 'three';
 
 extend({ OrbitControls, UnrealBloomPass });
 const Controls = props => {
@@ -28,6 +34,11 @@ const Controls = props => {
 };
 
 apply(resources);
+
+const DEFAULT_LAYER = 0;
+const OCCLUSION_LAYER = 1;
+
+const cubeCamera = new THREE.CubeCamera(1, 10000, 128);
 
 function Model({ url }) {
   const modelRef = useRef();
@@ -50,18 +61,19 @@ function Model({ url }) {
             geometry={geometry}
             ref={modelRef}
             receiveShadow
+            castShadow
           >
             <meshPhongMaterial
               attach="material"
               map={material.map}
               emissiveMap={material.emissiveMap}
-              envMap={material.envMap}
               specular="#000"
               color="#000"
               shininess={100}
-              metalness={0}
+              metalness={1}
               emissive="#fff6da"
               emissiveIntensity={1.4}
+              refractionRatio={0.95}
               transparent
               // Don't show both sides as it ruins the black hole effect
               // args={[{side: DoubleSide}]}
@@ -93,6 +105,16 @@ const Sphere = () => {
     </mesh>
   );
 };
+
+function cubeCam() {
+  const cubeRef = useRef();
+  useRender(() => cubeRef.current.update());
+  return (
+    <mesh>
+      <cubeCamera ref={cubeRef} />
+    </mesh>
+  );
+}
 
 function Stars() {
   const group = useRef();
@@ -131,11 +153,11 @@ function Effect() {
   return (
     <effectComposer ref={composer} args={[gl]}>
       <renderPass attachArray="passes" scene={scene} camera={camera} />
-      {/* <waterPass attachArray="passes" factor={1} uniforms-distortion={0.1} /> */}
+      {/* <waterPass attachArray="passes" factor={1} args={[{uniformsintensity: 0}]} /> */}
       <unrealBloomPass
         attachArray="passes"
         threshold={0.6}
-        strength={1}
+        strength={0.9}
         radius={0.05}
       />
       <shaderPass
@@ -186,7 +208,14 @@ export default function CanvasBackground() {
         pixelRatio={window.devicePixelRatio}
       >
         <ambientLight intensity={1.5} />
-        <fog attach="fog" args={['#000', 5, 2050]} />
+        <directionalLight
+          castShadow
+          intensity={100}
+          shadow-mapSize-width={2048}
+          shadow-mapSize-height={2048}
+        />
+
+        <fog attach="fog" args={['#000', 500, 2050]} />
         <Stars />
         <Model url="/static/blackhole/scene.gltf" />
         <Sphere />
